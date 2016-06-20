@@ -1,4 +1,4 @@
-package com.gcommon;
+package gcommon.objects;
 
 import java.lang.reflect.Field;
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package com.gcommon;
+package gcommon;
 
 /**
  * Collection of general-object utilities.

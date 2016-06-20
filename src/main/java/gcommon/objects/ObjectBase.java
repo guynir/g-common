@@ -1,4 +1,4 @@
-package com.gcommon;
+package gcommon.objects;
 
 /**
  * Provide a common mechanisms for POJOs, such as {@link Object#equals(Object)} and {@link Object#toString()}.

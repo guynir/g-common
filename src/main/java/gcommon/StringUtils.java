@@ -1,4 +1,4 @@
-package com.gcommon;
+package gcommon;
 
 import org.springframework.util.Assert;
 

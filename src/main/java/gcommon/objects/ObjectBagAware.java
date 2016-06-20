@@ -1,4 +1,4 @@
-package com.gcommon;
+package gcommon.objects;
 
 /**
  * An object-bag aware is an object that can generate a list of properties stored in a single {@link ObjectsBag}.<br>

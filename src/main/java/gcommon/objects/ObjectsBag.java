@@ -1,4 +1,4 @@
-package com.gcommon;
+package gcommon.objects;
 
 import java.util.Objects;
 

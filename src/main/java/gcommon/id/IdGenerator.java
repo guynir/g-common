@@ -1,4 +1,4 @@
-package com.gcommon.id;
+package gcommon.id;
 
 /**
  * Generate unique identifier for each call. Each underlying implementation may have its custom setup.

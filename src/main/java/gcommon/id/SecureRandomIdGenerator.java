@@ -1,4 +1,4 @@
-package com.gcommon.id;
+package gcommon.id;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;

@@ -1,4 +1,4 @@
-package com.gcommon.annotation;
+package gcommon.annotation;
 
 
 import org.springframework.aop.framework.AopProxyUtils;
