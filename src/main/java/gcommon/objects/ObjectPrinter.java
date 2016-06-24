@@ -99,7 +99,7 @@ public class ObjectPrinter {
         ObjectPrinter printer = new ObjectPrinter(cls);
 
         // If caller requested to recursively include the entire tree, insert parent toString first.
-        if (recursive && !cls.getSuperclass().equals(Object.class)) {
+        if (recursive && !cls.getSuperclass().equals(Object.class) && cls.getSuperclass().equals(ObjectBase.class)) {
             printer.prepend("{ super ");
             printer.include(newPrinter(object, cls.getSuperclass(), true));
             printer.buf.append(" } ");
