@@ -28,9 +28,9 @@ repositories {
     // Maven central repositories.
     mavenCentral()
 
-    // guyrn dedicated Maven repository.
+    // GuyRN's dedicated Maven repository.
     maven {
-        url "https://dl.bintray.com/guynir75/guyrn"
+        url "https://dl.bintray.com/guynir75/public"
     }
 }
 
@@ -86,7 +86,7 @@ bintray {
     publications = ['PublishArtifact']
 
     pkg {
-        repo = 'guyrn'
+        repo = 'public'
         name = 'gcommon'
         vcsUrl = 'https://github.com/guynir/g-common.git'
         licenses = ['Apache-2.0']
@@ -106,12 +106,38 @@ bintray {
 publishing {
     publications {
         PublishArtifact(MavenPublication) {
-            from components.java
             groupId 'com.guyrn'
             artifactId 'gcommon'
             version '0.9'
+
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
         }
     }
+}
+
+publish.dependsOn clean, assemble, bintrayUpload
+
+//
+// Add sources jar when publishing.
+//
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+//
+// Add java when publishing.
+//
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+// add javadoc/source jar tasks as artifacts
+artifacts {
+    archives sourcesJar, javadocJar
 }
 
 defaultTasks 'clean', 'assemble'

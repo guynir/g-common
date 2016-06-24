@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * Provide hint for {@link ObjectPrinter#newPrinter(Object)} whether to introspect a field's value and print it or not.
- * <p></p>
+ * <p>
  * Typically, simple field values (such as {@code int}, {@code float}, {@code java.lang.String}) are intuitive for
  * printing. However, other complex types (e.g.: user objects, collections) are sometimes not designated for printing.
  *

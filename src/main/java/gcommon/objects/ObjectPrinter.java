@@ -49,7 +49,7 @@ public class ObjectPrinter {
         if (prefix != null) {
             buf.append(prefix).append(' ');
         }
-        buf.append("[");
+        buf.append("[ ");
     }
 
     /**
@@ -62,11 +62,48 @@ public class ObjectPrinter {
      * @throws IllegalStateException    If one of the fields could not be introspected due to JVM security restriction.
      */
     public static ObjectPrinter newPrinter(Object object) throws IllegalArgumentException, IllegalStateException {
+        return newPrinter(object, false);
+    }
+
+    /**
+     * Introspect a given <i>object</i> and create a <i>toString</i> builder for it. By default, all fields are
+     * introspected and added. To control a field introspection explicitly, use {@link PrinterHint}.
+     *
+     * @param object    Object to introspect.
+     * @param recursive {@code true} if to include all super classes, {@code false} if to include this instance only.
+     * @return A new and populated printer.
+     * @throws IllegalArgumentException If <i>object</i> is {@code null}.
+     * @throws IllegalStateException    If one of the fields could not be introspected due to JVM security restriction.
+     */
+    public static ObjectPrinter newPrinter(Object object, boolean recursive) throws IllegalArgumentException, IllegalStateException {
+        return newPrinter(object, null, recursive);
+    }
+
+    /**
+     * Introspect a given <i>object</i> and create a <i>toString</i> builder for it. By default, all fields are
+     * introspected and added. To control a field introspection explicitly, use {@link PrinterHint}.
+     *
+     * @param object    Object to introspect.
+     * @param recursive {@code true} if to include all super classes, {@code false} if to include this instance only.
+     * @return A new and populated printer.
+     * @throws IllegalArgumentException If <i>object</i> is {@code null}.
+     * @throws IllegalStateException    If one of the fields could not be introspected due to JVM security restriction.
+     */
+    public static <T> ObjectPrinter newPrinter(T object, Class<? extends T> withClazz, boolean recursive) throws IllegalArgumentException, IllegalStateException {
         if (object == null) {
             throw new IllegalArgumentException("Object cannot be null.");
         }
-        Class<?> cls = object.getClass();
+
+        Class<?> cls = withClazz == null ? object.getClass() : withClazz;
+
         ObjectPrinter printer = new ObjectPrinter(cls);
+
+        // If caller requested to recursively include the entire tree, insert parent toString first.
+        if (recursive && !cls.getSuperclass().equals(Object.class)) {
+            printer.prepend("{ super ");
+            printer.include(newPrinter(object, cls.getSuperclass(), true));
+            printer.buf.append(" } ");
+        }
 
         // Generate list of all object's fields and traverse the list.
         Field[] fields = cls.getDeclaredFields();
@@ -104,7 +141,7 @@ public class ObjectPrinter {
      * @return String representing all fields added so far.
      */
     public String getMessage() {
-        return buf.toString() + "]";
+        return buf.toString() + " ]";
     }
 
 
@@ -155,6 +192,17 @@ public class ObjectPrinter {
         } else {
             buf.append("null");
         }
+        return this;
+    }
+
+    /**
+     * Append another object printer into this one.
+     *
+     * @param other Other printer.
+     * @return This instance.
+     */
+    public ObjectPrinter include(ObjectPrinter other) {
+        buf.append(other.toString());
         return this;
     }
 
