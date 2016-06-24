@@ -2,6 +2,9 @@ package gcommon;
 
 import org.springframework.util.Assert;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Formatter;
 
 /**
@@ -11,6 +14,32 @@ import java.util.Formatter;
  * @since 29/11/2011
  */
 public class StringUtils {
+
+    /**
+     * Number formatting utilities.
+     */
+    private static final NumberFormat numberFormat = NumberFormat.getInstance();
+
+    /**
+     * Enumeration units.
+     */
+    enum SizeUnits {
+        BYTES(1L), KB(1024L), MB(1024L * 1024L), GB(1024L * 1024L * 1024L), TB(1024L * 1024L * 1024L * 1024L);
+
+        /**
+         * No. of bytes per this unit.
+         */
+        public final long magnitude;
+
+        /**
+         * Class constructor.
+         *
+         * @param magnitude Number of bytes per unit.
+         */
+        SizeUnits(long magnitude) {
+            this.magnitude = magnitude;
+        }
+    }
 
     /**
      * Build a string based on a given <i>format</i> and a collection of <i>arguments</i>. The specific
@@ -36,7 +65,7 @@ public class StringUtils {
      * @param format    Format of string (e.g.: 'Hello there Mr. %s').
      * @param arguments Variable argument with values.
      * @return The {@code StringBuilder} where message is placed (either the one supplied by the caller or ane instance
-     *         if caller passed {@code null} for the <i>targetBuf</i> arguments).
+     * if caller passed {@code null} for the <i>targetBuf</i> arguments).
      * @throws IllegalArgumentException If <i>format</i> is {@code null}.
      * @see Formatter
      */
@@ -63,4 +92,13 @@ public class StringUtils {
         return string == null || string.length() == 0 || string.trim().length() == 0;
     }
 
+    /**
+     * Format a given value to convenient human-readable string including thousands separator.
+     *
+     * @param value Value to format.
+     * @return Formatted value.
+     */
+    public static String formatNumber(long value) {
+        return numberFormat.format(value);
+    }
 }
