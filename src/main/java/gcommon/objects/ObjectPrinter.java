@@ -83,7 +83,11 @@ public class ObjectPrinter {
      * Introspect a given <i>object</i> and create a <i>toString</i> builder for it. By default, all fields are
      * introspected and added. To control a field introspection explicitly, use {@link PrinterHint}.
      *
+     * @param <T>       Generic type of <i>object</i>. Required for enforcing relation between <i>object</i> and
+     *                  <i>withClazz</i>.
      * @param object    Object to introspect.
+     * @param withClazz Optional class to use for inspection. Effective when caller wants to print super types of the
+     *                  given instance. May be {@code null} to extract class directly from <i>object</i>.
      * @param recursive {@code true} if to include all super classes, {@code false} if to include this instance only.
      * @return A new and populated printer.
      * @throws IllegalArgumentException If <i>object</i> is {@code null}.
@@ -99,7 +103,7 @@ public class ObjectPrinter {
         ObjectPrinter printer = new ObjectPrinter(cls);
 
         // If caller requested to recursively include the entire tree, insert parent toString first.
-        if (recursive && !cls.getSuperclass().equals(Object.class) && cls.getSuperclass().equals(ObjectBase.class)) {
+        if (recursive && !cls.getSuperclass().equals(Object.class) && !cls.getSuperclass().equals(ObjectBase.class)) {
             printer.prepend("{ super ");
             printer.include(newPrinter(object, cls.getSuperclass(), true));
             printer.buf.append(" } ");
