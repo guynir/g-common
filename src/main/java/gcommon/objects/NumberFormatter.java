@@ -145,6 +145,7 @@ public class NumberFormatter {
             BigDecimal divider = BigDecimal.valueOf(kilo);
             while (unitsIndex < SizeUnits.values().length && value.compareTo(referenceValue) >= 0) {
                 value = value.divide(divider, BigDecimal.ROUND_DOWN);
+                unitsIndex++;
             }
 
         }

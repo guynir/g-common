@@ -17,12 +17,12 @@ public enum SizeUnits {
     /**
      * Symbol representing the unit.
      */
-    public String symbol;
+    public final String symbol;
 
     /**
      * Class constructor.
      *
-     * @param symbol Synbol representign the unit.
+     * @param symbol Symbol representing the unit.
      */
     SizeUnits(String symbol) {
         this.symbol = symbol;
