@@ -83,6 +83,8 @@ bintray {
     user = getSystemProperty('BINTRAY_USERNAME')
     key = getSystemProperty('BINTRAY_API_KEY')
 
+    publish = true
+
     publications = ['PublishArtifact']
 
     pkg {
