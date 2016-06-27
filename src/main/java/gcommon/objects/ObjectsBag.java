@@ -1,5 +1,6 @@
 package gcommon.objects;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -48,21 +49,8 @@ public final class ObjectsBag {
 
         ObjectsBag other = (ObjectsBag) obj;
 
-        // If our internal list is not the same, we're not equal.
-        if (objects.length != other.objects.length) {
-            return false;
-        }
-
-        // Deeply compare between all objects inside this bag and the objects
-        // inside the other bag.
-        for (int index = 0; index < objects.length; index++) {
-            if (!Objects.equals(objects[index], other.objects[index])) {
-                return false;
-            }
-        }
-
-        // If we've reach this point, than both bags are equal!
-        return true;
+        // Java 7+ objects equality.
+        return Arrays.equals(objects, other.objects);
     }
 
     /**
@@ -70,10 +58,7 @@ public final class ObjectsBag {
      */
     @Override
     public int hashCode() {
-        int result = 1;
-        for (Object object : objects) {
-            result = 31 * result + (object != null ? object.hashCode() : 0);
-        }
-        return result;
+        // Java 7+ auto-hash function.
+        return Objects.hash(objects);
     }
 }
