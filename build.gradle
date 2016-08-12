@@ -8,7 +8,6 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'idea'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
@@ -67,13 +66,6 @@ dependencies {
     testCompile 'info.cukes:cucumber-junit:1.2.4'
     testCompile 'info.cukes:cucumber-java:1.2.4'
     testCompile 'info.cukes:cucumber-core:1.2.4'
-}
-
-idea {
-    module {
-        downloadJavadoc = true
-        downloadSources = true
-    }
 }
 
 //
@@ -149,12 +141,12 @@ defaultTasks 'clean', 'assemble'
  *
  * @param name Name of property.
  * @return Property value.
- * @throws GradleException If property does not exist.
+ * @throws RuntimeException If property does not exist.
  */
-def getSystemProperty(String name) throws GradleException {
+static def getSystemProperty(String name) throws RuntimeException {
     String value = System.getenv(name)
     if (value == null) {
-        throw new GradleException("Missing '$name' system property.")
+        throw new RuntimeException("Missing '$name' system property.")
     }
     return value
 }
