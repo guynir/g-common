@@ -4,6 +4,7 @@ import org.springframework.util.Assert;
 
 import java.text.NumberFormat;
 import java.util.Formatter;
+import java.util.regex.Pattern;
 
 /**
  * A collection of general service related to strings.
@@ -19,10 +20,19 @@ public class StringUtils {
     private static final NumberFormat numberFormat = NumberFormat.getInstance();
 
     /**
+     * Regular expression to validate E-mail string.
+     */
+    private static Pattern EMAIL_PATTERN = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+
+    /**
      * Enumeration units.
      */
     enum SizeUnits {
-        BYTES(1L), KB(1024L), MB(1024L * 1024L), GB(1024L * 1024L * 1024L), TB(1024L * 1024L * 1024L * 1024L);
+        BYTES(1L),
+        KB(1024L),
+        MB(1024L * 1024L),
+        GB(1024L * 1024L * 1024L),
+        TB(1024L * 1024L * 1024L * 1024L);
 
         /**
          * No. of bytes per this unit.
@@ -98,5 +108,16 @@ public class StringUtils {
      */
     public static String formatNumber(long value) {
         return numberFormat.format(value);
+    }
+
+    /**
+     * Test if a given <i>email</i> string is a valid E-mail address. The matching is based on RFC-5322 with some
+     * extensions.
+     *
+     * @param email E-mail address to validate.
+     * @return {@code true} if provided string is a valid E-mail address, {@code false} if not.
+     */
+    public static boolean isValidEmail(String email) {
+        return email != null && EMAIL_PATTERN.matcher(email).matches();
     }
 }
