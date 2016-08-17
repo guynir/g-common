@@ -25,6 +25,11 @@ public class StringUtils {
     private static Pattern EMAIL_PATTERN = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 
     /**
+     * Hexadecimal digits.
+     */
+    private static char[] HEX_DIGITS = "0123456789abcdef".toCharArray();
+
+    /**
      * Enumeration units.
      */
     enum SizeUnits {
@@ -119,5 +124,27 @@ public class StringUtils {
      */
     public static boolean isValidEmail(String email) {
         return email != null && EMAIL_PATTERN.matcher(email).matches();
+    }
+
+    /**
+     * Convert an array of bytes to hexadecimal-based string representation.
+     *
+     * @param data Data to convert.
+     * @return String representation of <i>data</i> in hexadecimal encoding. If <i>data</i> is {@code null}, a {@code null}
+     * value is returned. If <i>data.length == 0</i>, the returned value is empty string.
+     */
+    public static String toString(byte[] data) {
+        if (data == null) {
+            return null;
+        }
+
+        char[] characters = new char[data.length * 2];
+        for (int index = 0; index < data.length; index++) {
+            int value = ((int) data[index]) & 0xFF;
+            characters[index * 2] = HEX_DIGITS[value >> 4];
+            characters[index * 2 + 1] = HEX_DIGITS[value & 0x0F];
+        }
+
+        return new String(characters);
     }
 }
