@@ -21,7 +21,7 @@ public @interface PrinterHint {
     /**
      * Determine if a field is to be introspected for printing or not.
      *
-     * @return {@code true} if field should be introspected, {@code false} if not. A non instrospected field is simply
+     * @return {@code true} if field should be introspected, {@code false} if not. A non introspected field is simply
      *         displayed with no associated value.
      */
     boolean value() default true;

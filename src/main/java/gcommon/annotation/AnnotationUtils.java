@@ -22,7 +22,7 @@ public class AnnotationUtils {
      * Locate all methods that are immediately annotated with a given <i>annotationType</i>. The word 'immediate'
      * suggests that only method that are annotated are called. Methods that are annotated by a parent implementation
      * (or interface) but are not annotated by child method are no reported.<p>
-     * This method searches for all methods in the class heirarchy.
+     * This method searches for all methods in the class hierarchy.
      *
      * @param object         Object to inspect methods.
      * @param annotationType Type of annotation to search on methods.

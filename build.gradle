@@ -14,8 +14,10 @@ apply plugin: 'com.jfrog.bintray'
 //
 // Target hotspot version.
 //
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+compileJava {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
 
 //
 // Artifact repositories.
@@ -42,11 +44,11 @@ if (!project.hasProperty("springVersion")) {
 // Dependencies shared by all projects.
 //
 dependencies {
-    compile 'org.apache.logging.log4j:log4j-api:2.5'
-    compile 'org.apache.logging.log4j:log4j-core:2.5'
-    compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.5'
+    //compile 'org.apache.logging.log4j:log4j-api:2.7'
+    //compile 'org.apache.logging.log4j:log4j-core:2.7'
+    //compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.7'
 
-    compile("org.slf4j:slf4j-api:$slf4jVersion") {
+    compile("org.slf4j:slf4j-api:1.7.21") {
         exclude group: 'org.slf4j', module: 'slf4j-log4j12'
     }
 
@@ -58,7 +60,7 @@ dependencies {
         exclude group: 'commons-logging', module: 'commons-logging'
     }
 
-    compile "joda-time:joda-time:$jodaTimeVersion"
+    compile "joda-time:joda-time:2.9.1"
 
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.7.4'
 
@@ -143,10 +145,10 @@ defaultTasks 'clean', 'assemble'
  * @return Property value.
  * @throws RuntimeException If property does not exist.
  */
-static def getSystemProperty(String name) throws RuntimeException {
+static getSystemProperty(String name) throws RuntimeException {
     String value = System.getenv(name)
     if (value == null) {
-        throw new RuntimeException("Missing '$name' system property.")
+        //throw new RuntimeException("Missing '$name' system property.")
     }
     return value
 }

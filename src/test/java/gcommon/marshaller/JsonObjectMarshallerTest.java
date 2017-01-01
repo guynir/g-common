@@ -1,9 +1,7 @@
 package gcommon.marshaller;
 
-import cucumber.api.junit.Cucumber;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.Objects;
 
@@ -61,7 +59,7 @@ public class JsonObjectMarshallerTest {
         public SampleBean() {
         }
 
-        public SampleBean(String name, int age) {
+        SampleBean(String name, int age) {
             this.name = name;
             this.age = age;
         }
