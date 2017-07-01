@@ -53,7 +53,7 @@ gradle-app.setting
 Thumbs.db
 ehthumbs.db
 
-# io.storage.FolderMetadata config file
+# io.storage.v1.FolderMetadata config file
 Desktop.ini
 
 # Recycle Bin used on file shares
@@ -95,7 +95,7 @@ $RECYCLE.BIN/
 # Mongo Explorer plugin:
 # .idea/mongoSettings.xml
 
-## io.storage.FileMetadata-based project format:
+## io.storage.v1.FileMetadata-based project format:
 *.ipr
 *.iws
 
