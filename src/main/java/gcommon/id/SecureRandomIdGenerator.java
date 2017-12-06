@@ -20,71 +20,90 @@ import java.security.SecureRandom;
  */
 public class SecureRandomIdGenerator implements IdGenerator {
 
-    /**
-     * Secure random that generates the token.
-     */
-    private final SecureRandom random = new SecureRandom(java.lang.Long.toString(System.currentTimeMillis()).getBytes());
+  /**
+   * Secure random that generates the token.
+   */
+  private final SecureRandom random = new SecureRandom(java.lang.Long.toString(System.currentTimeMillis()).getBytes());
 
-    /**
-     * The alphabet used for encoding the generated value.
-     */
-    private char[] tokenEncodingAlphabet = DEFAULT_ALPHABET;
+  /**
+   * The alphabet used for encoding the generated value.
+   */
+  private char[] tokenEncodingAlphabet = DEFAULT_ALPHABET;
 
-    /**
-     * Token size, in digits.
-     */
-    private int tokenSize = DEFAULT_TOKEN_SIZE;
+  /**
+   * Token size, in digits.
+   */
+  private int tokenSize = DEFAULT_TOKEN_SIZE;
 
-    private static final int DEFAULT_TOKEN_SIZE = 64;
+  public static final int DEFAULT_TOKEN_SIZE = 64;
 
-    /**
-     * Default alphabet to use for encoding the generated value.
-     */
-    private static final char[] DEFAULT_ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".toCharArray();
+  /**
+   * Default alphabet to use for encoding the generated value.
+   */
+  public static final char[] DEFAULT_ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+      .toCharArray();
 
-    /**
-     * Generate a new unique identifier composed of unique secure number and lower 24 bits of system milliseconds count.
-     *
-     * @return A new unique identifier.
-     */
-    public String generate() {
-        //
-        // Create a new unique value as BigInteger that is composed of:
-        // 64 bytes of secure random.
-        // 3.5 bytes (28 bits) taken from system time milliseconds.
-        //
-        BigInteger buffer = new BigInteger(1, random.generateSeed((tokenSize / 2) - 3));
-        buffer = buffer.shiftLeft(28).add(BigInteger.valueOf(System.currentTimeMillis() & 0x0FFFFFFF));
+  /**
+   * Construct new ID generator with reasonable defaults.
+   */
+  public SecureRandomIdGenerator() {
+  }
 
-        //
-        // Convert the generated value to string representation using given alphabet.
-        //
-        StringBuilder generatedValue = new StringBuilder(128);
-        BigInteger divider = BigInteger.valueOf(tokenEncodingAlphabet.length);
-        while (buffer.compareTo(BigInteger.ZERO) > 0) {
-            BigInteger[] values = buffer.divideAndRemainder(divider);
-            generatedValue.append(tokenEncodingAlphabet[values[1].intValue()]);
-            buffer = values[0];
-        }
+  /**
+   * Class constructor.
+   *
+   * @param tokenSize Token size. Must be greater than 0.
+   */
+  public SecureRandomIdGenerator(int tokenSize) {
+    if (tokenSize < 1) {
+      throw new IllegalArgumentException("Invalid token size: " + tokenSize + " (must be greater than 0).");
+    }
+    this.tokenSize = tokenSize;
+  }
 
-        return generatedValue.toString();
+  /**
+   * Generate a new unique identifier composed of unique secure number and lower 24 bits of system milliseconds count.
+   *
+   * @return A new unique identifier.
+   */
+  public String generate() {
+    //
+    // Create a new unique value as BigInteger that is composed of:
+    // 64 bytes of secure random.
+    // 3.5 bytes (28 bits) taken from system time milliseconds.
+    //
+    BigInteger buffer = new BigInteger(1, random.generateSeed((tokenSize / 2) - 3));
+    buffer = buffer.shiftLeft(28).add(BigInteger.valueOf(System.currentTimeMillis() & 0x0FFFFFFF));
+
+    //
+    // Convert the generated value to string representation using given alphabet.
+    //
+    StringBuilder generatedValue = new StringBuilder(128);
+    BigInteger divider = BigInteger.valueOf(tokenEncodingAlphabet.length);
+    while (buffer.compareTo(BigInteger.ZERO) > 0) {
+      BigInteger[] values = buffer.divideAndRemainder(divider);
+      generatedValue.append(tokenEncodingAlphabet[values[1].intValue()]);
+      buffer = values[0];
     }
 
-    /**
-     * Sets the table of characters to use when encoding the identifier.
-     *
-     * @param tokenEncodingAlphabet New set of characters.
-     */
-    public void setTokenEncodingAlphabet(char[] tokenEncodingAlphabet) {
-        this.tokenEncodingAlphabet = tokenEncodingAlphabet;
-    }
+    return generatedValue.toString();
+  }
 
-    /**
-     * Sets the required size of generated token (identifier).
-     *
-     * @param tokenSize Size of token in characters.
-     */
-    public void setTokenSize(int tokenSize) {
-        this.tokenSize = tokenSize;
-    }
+  /**
+   * Sets the table of characters to use when encoding the identifier.
+   *
+   * @param tokenEncodingAlphabet New set of characters.
+   */
+  public void setTokenEncodingAlphabet(char[] tokenEncodingAlphabet) {
+    this.tokenEncodingAlphabet = tokenEncodingAlphabet;
+  }
+
+  /**
+   * Sets the required size of generated token (identifier).
+   *
+   * @param tokenSize Size of token in characters.
+   */
+  public void setTokenSize(int tokenSize) {
+    this.tokenSize = tokenSize;
+  }
 }
