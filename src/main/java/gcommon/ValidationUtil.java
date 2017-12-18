@@ -1,9 +1,8 @@
 package gcommon;
 
-import org.springframework.util.Assert;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.springframework.util.Assert;
 
 /**
  * A collection of validation related utilities.

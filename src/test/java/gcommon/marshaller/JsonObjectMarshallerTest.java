@@ -1,9 +1,8 @@
 package gcommon.marshaller;
 
+import java.util.Objects;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.Objects;
 
 /**
  * Unit test for {@link JsonObjectMarshaller}.
@@ -38,7 +37,7 @@ public class JsonObjectMarshallerTest {
      * Test marshalling and unmarshalling a Java object.
      */
     @Test
-    public void testMarshalAndUnmarshal() {
+    public void testMarshallingAndUnmarshalling() {
         SampleBean source = new SampleBean("Some name", 99);
         byte[] raw = marshaller.marshal(source);
 

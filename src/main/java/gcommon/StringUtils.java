@@ -1,10 +1,9 @@
 package gcommon;
 
-import org.springframework.util.Assert;
-
 import java.text.NumberFormat;
 import java.util.Formatter;
 import java.util.regex.Pattern;
+import org.springframework.util.Assert;
 
 /**
  * A collection of general service related to strings.
@@ -22,12 +21,12 @@ public class StringUtils {
     /**
      * Regular expression to validate E-mail string.
      */
-    private static Pattern EMAIL_PATTERN = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 
     /**
      * Hexadecimal digits.
      */
-    private static char[] HEX_DIGITS = "0123456789abcdef".toCharArray();
+    private static final char[] HEX_DIGITS = "0123456789abcdef".toCharArray();
 
     /**
      * Enumeration units.

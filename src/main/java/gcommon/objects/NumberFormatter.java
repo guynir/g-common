@@ -1,7 +1,6 @@
 package gcommon.objects;
 
 import gcommon.SizeUnits;
-
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
@@ -38,7 +37,7 @@ public class NumberFormatter {
     /**
      * Formatter.
      */
-    private DecimalFormat formatter = new DecimalFormat();
+    private DecimalFormat formatter;
 
     public NumberFormatter() {
         formatter = newDecimalFormat();
